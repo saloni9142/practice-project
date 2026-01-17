@@ -18,8 +18,17 @@ const savedComment = await comment.save();
 
 // find the post by id, add the new commeng to its comments array
 const updatedPost = await Post.findByIdAndUpdate(post,{$push: {comments:savedComment._id}}, {new: true})
+.populate("comments") // populate comments array with comment documents
+.exec();
+
+res.json({
+    post: updatedPost
+})
 
     } catch (error) {
+        return res.status(500).json({
+            error: "Error while creating comment",
+        })
         
     }
  }

@@ -14,14 +14,14 @@
 
         },
         likes:[{
-            types: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Like",
         }],
         comments:[{
-           types: mongoose.Schema.Types.ObjectId,
+           type: mongoose.Schema.Types.ObjectId,
             ref: "Comment",
         }]
 
 
     })
-module.exports=mongoose.model("Like", postSchema);
+module.exports=mongoose.model("Post", postSchema);
