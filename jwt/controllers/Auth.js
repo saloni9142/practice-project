@@ -80,7 +80,7 @@ exports.login= async(req,res)=>{
             role: user.role,
         }
         // verify password nad gebnerate a jwt token
-        if(bcrypt.compare(password, user.password)){
+        if( await bcrypt.compare(password, user.password)){
             // password match
             let token = jwt.sign(payload,process.env.JWT_SECRET,
             {
@@ -88,19 +88,37 @@ exports.login= async(req,res)=>{
             });
             user.token=token;
             user.password = undefined;
+
+            const options={
+                expires: new Date(Date.now() + 3*24 *60*60*1000),
+                httpOnly:true,
+            }
+            res.cookie("token", token,options).status(200).json({
+                success: true,
+                token,
+                user,
+                message:"user logged in successfully"
+            });
             
             
         }
         else{
             // password do not match
             return res.status(403).json({
-                success: true,
+                success: false,
                 message:"Password incorect"
             })
         }
 
         
     } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message:"failed"
+
+        })
+        
         
     }
 }
