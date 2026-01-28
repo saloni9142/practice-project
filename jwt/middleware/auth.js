@@ -8,7 +8,7 @@ exports.auth=(req,res,next)=>{
         // extarct jwt token
         // pending : lother ways to fetch token
         const token = req.body.token;
-        if(!token){
+        if(!token || token==undefined){
             return res.satatus(401).json({
                 success: false,
                 message:"token missing"

@@ -28,3 +28,34 @@ exports.localFileUpload = async (req,res)=>{
         
     }
 }
+
+function isFileTypeSupported(type, supportedTypes){
+    return supportedTypes.includes(type);
+}
+
+// i mage upload ka handler
+exports.imageUpload = async(req,res)=>{
+    try {
+
+        // data fetch
+        const {name, tags,email} = req.body;
+        console.log(name, tags, email);
+
+        const file= req.files.imageFile;
+        console.log(file);
+        
+        // valodation
+        const supportedTypes =["jpg", "jpeg", "png"];
+        const fileType = file.name.split(".")[1].toLowerCase();
+
+        if(!isFileTypeSupported(fileType,supportedTypes)){
+            return res.status(400).json({
+                success: false,
+                message:"file format not supppoeted"
+            })
+        }
+        
+    } catch (error) {
+        
+    }
+}
